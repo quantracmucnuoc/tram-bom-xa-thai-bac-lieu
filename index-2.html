@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="refresh" content="300">
+    <meta permissions-policy: interest-cohort=()>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quan trắc mực nước - TP Bạc Liêu</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/fonts/themify-icons/themify-icons.css">
+    <link rel="icon" href="./assets/images/logo_ctu/1024px-Logo_Dai_hoc_Can_Tho.svg.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
+    <script defer src="https://api.map4d.vn/sdk/map/js?version=1.6.0&key=	01bc4b3257cf82004bfe26cb6cb2c8f4&callback=initMap"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+</head>
+
+<body>
+    <div id="main">
+        <!--Begin Header  -->
+        <div id="header">
+            <h1 class="header-content">Hệ thống quan trắc mực nước tại các trạm bơm xả nước thải</h1>
+            <div class="dropdown-thamchieu">
+                <button class="dropbtn">Tham chiếu</button>
+                <div class="dropdown-content">
+                    <a href="index.html">Vị trí cảm biến</a>
+                    <a style="color: red;" href="index-2.html">Trung bình mực nước</a>
+                </div>
+            </div>
+            <div class="header-line"></div>
+            <div class="header-sub">
+                <div class="header-diadiem">
+                    <p>Địa điểm: TP Bạc Liêu</p>
+                </div>
+                <div class="header-date">
+                    <p>Cập nhật:</p>
+                    <p id="display_time"></p>
+                    <button class="btn-reload" onclick="window.location.reload()"><i class="ti-reload"></i></button>
+                </div>
+            </div>
+        </div>
+        <!-- End Header -->
+
+        <!-- Alert message -->
+        <div class="alert-box">
+            <div class="message-box">
+                <div id="alert-1">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <strong>Cảnh báo!</strong> Trạm 1 đạt ngưỡng báo động.
+                </div>
+            </div>
+            <div class="message-box mid-message">
+                <div id="alert-2">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <strong>Cảnh báo!</strong> Trạm 2 đạt ngưỡng báo động.
+                </div>
+            </div>
+            <div class="message-box">
+                <div id="alert-3">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <strong>Cảnh báo!</strong> Trạm 3 đạt ngưỡng báo động.
+                </div>
+            </div>
+
+        </div>
+        <!-- Begin Chart -->
+        <div id="mini-chart">
+            <div class="chart-box">
+                <p class="chart-title">
+                    <i class="ti-stats-up"></i> Trạm 1
+                </p>
+                <div class="icon-full-screen">
+                    <a href="tram1-2.html"><i class="ti-fullscreen"></i></a>
+                </div>
+                <div class="mini-chart-line"></div>
+                <div>
+                    <canvas id="chart-1" height="200px" width="400px"></canvas>
+                    <script src="./js_index_2/chart1.js"></script>
+                </div>
+            </div>
+
+            <div class="chart-box" style="margin: 0 20px">
+                <p class="chart-title">
+                    <i class="ti-stats-up"></i> Trạm 2
+                </p>
+                <div class="icon-full-screen">
+                    <a href="tram2-2.html"><i class="ti-fullscreen"></i></a>
+                </div>
+                <div class="mini-chart-line"></div>
+                <div>
+                    <canvas id="chart-2" height="200px" width="400px"></canvas>
+                    <script src="./js_index_2/chart2.js"></script>
+                </div>
+
+            </div>
+
+            <div class="chart-box">
+                <p class="chart-title">
+                    <i class="ti-stats-up"></i> Trạm 3
+                </p>
+                <div class="icon-full-screen">
+                    <a href="tram3-2.html"><i class="ti-fullscreen"></i></a>
+                </div>
+                <div class="mini-chart-line"></div>
+                <div>
+                    <canvas id="chart-3" height="200px" width="400px"></canvas>
+                    <script src="./js_index_2/chart3.js"></script>
+                </div>
+            </div>
+        </div>
+        <div class="tram-btn">
+            <a href="tram1-2.html"><i style="font-size: 13px; margin: 0 3px 0px 0px;" class="ti-new-window"></i>Trạm 1</a>
+            <a style="margin-right: 0px; margin-left: 0px;" href="tram2-2.html"><i style="font-size: 13px; margin: 0 3px 0px 0px;" class="ti-new-window"></i>Trạm 2</a>
+            <a href="tram3-2.html"><i style="font-size: 13px; margin: 0 3px 0px 0px;" class="ti-new-window"></i>Trạm 3</a>
+        </div>
+        <div class="chart-4-box">
+            <p style="padding: 0 5px;" class="chart-title">
+                <i class="ti-stats-up"></i> Tổng hợp
+            </p>
+            <div class="select-box">
+                <select id="change_chart">
+                    <option id="live-id" value="live">Live</option>
+                    <option value="1-ngay">1 ngày</option>
+                    <option value="3-ngay">3 ngày</option>
+                    <option value="7-ngay">7 ngày</option>
+                    <option value="15-ngay">15 ngày</option>
+                </select>
+            </div>
+            <div class="chart-4-line"></div>
+            <div>
+                <canvas id="chart-4" height="400px" width="1280px"></canvas>
+                <script src="./js_index_2/chart4.js"></script>
+                <div class="button-box">
+                    <div class="next-btn">
+                        <button class="btn-chart4" id="previous" onclick="nextData(-37, -37)"><i
+                            class="ti-control-backward"></i></button>
+                        <button class="btn-chart4" id="next" onclick="nextData(37, 37)"><i
+                            class="ti-control-forward"></i></button>
+                    </div>
+                    <div class="filter-box">
+                        Start: <input style="margin-right: 5px;" id="start" type="date" min="" max="" value=""> End: <input id="end" type="date" min="" max="" value="">
+                        <button class="btn-chart4" style="margin-left: 5px;" onclick="filterDate()"><i style="font-size: 13px; margin: 0 5px 0px -3px;" class="ti-stats-up"></i>Plot</button>
+                    </div>
+                    <button class="btn-chart4" onclick="resetData()">Reset</button>
+                    <div class="pdf-btn">
+                        <button class="btn-chart4" onclick="downloadPDF()"><i style="font-size: 13px; margin: 0 5px 0px -3px;" class="ti-download"></i>PDF</button>
+                    </div>
+                    <div class="toggle-btn">
+                        <button class="btn-chart4" onclick="toggleData(3)">TB Trạm 1</button>
+                        <button class="btn-chart4" onclick="toggleData(4)">TB Trạm 2</button>
+                        <button class="btn-chart4" onclick="toggleData(5)">TB Trạm 3</button>
+                    </div>
+                </div>
+                <div class="button-box-mobile">
+                    <div class="next-btn">
+                        <button class="btn-chart4" id="previous" onclick="nextData(-37, -37)"><i
+                            class="ti-control-backward"></i></button>
+                        <button class="btn-chart4" id="next" onclick="nextData(37, 37)"><i
+                            class="ti-control-forward"></i></button>
+                    </div>
+                    <div class="pdf-reset-btn">
+                        <button class="btn-chart4" style="margin-right: 0px;" onclick="resetData()">Reset</button>
+                        <button class="btn-chart4" style="margin-left: 0px;" onclick="downloadPDF_mobile()"><i style="font-size: 13px; margin: 0 5px 0px -3px;" class="ti-download"></i>PDF</button>
+                    </div>
+                    <div class="filter-box">
+                        Start: <input style="margin-right: 5px;" id="start_m" type="date" min="" max="" value=""> End: <input id="end_m" type="date" min="" max="" value="">
+                        <button style="margin-left: 5px;" class="btn-chart4" onclick="filterDate_mobile()"><i style="font-size: 13px; margin: 0 5px 0px -3px;" class="ti-stats-up"></i>Plot</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Chart -->
+
+        <div class="content-title">
+            <i class="ti-map-alt"></i>
+            <p class="map-title">Vị trí trạm đo</p>
+            <i class="ti-view-list-alt"></i>
+            <p class="table-title">Thống kê</p>
+        </div>
+        <div id="content">
+            <!-- Begin Map -->
+            <div class="map-box">
+                <div id="map">
+                    <script src="./js_index_2/map.js"></script>
+                </div>
+            </div>
+            <!--End Map -->
+
+            <!-- Begin Table -->
+            <div class="table-box">
+                <select class="form-control" onchange="fn_change()" id="list-tram">
+                    <!-- <option value="" selected disabled>Chọn trạm đo...</option> -->
+                    <option value="tram1">Trạm 1</option>
+                    <option value="tram2">Trạm 2</option>
+                    <option value="tram3">Trạm 3</option>
+                </select>
+                <div>
+                    <div class="table-distance">
+                        <table style="width:100%" class="12h-table">
+                            <tr>
+                                <th style="width:45%;text-align: center" colspan="2">Tọa độ</th>
+                                <td style="width:25%; text-align: center;" colspan="2">
+                                    <p id="toa-do"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="width:45%;text-align: center" colspan="2">Hiện tại</th>
+                                <td style="width:25%;padding-left: 10px;">
+                                    <p id="hien-tai"></p>
+                                </td>
+                                <td style="width:30%">
+                                    <p id="time-hien-tai"></p>
+                                </td>
+                            </tr>
+
+                            <!-- 1 ngày -->
+                            <tr>
+                                <th style="background-color: rgb(240, 240, 240); text-align: center; width:20%" rowspan="3">1 NGÀY</th>
+                                <th style="background-color: rgb(240, 240, 240); width:25%">Thấp nhất</th>
+                                <td style="padding-left: 10px;background-color: rgb(240, 240, 240); width:25%">
+                                    <p id="min-1day"></p>
+                                </td>
+                                <td style="background-color: rgb(240, 240, 240); width:30%">
+                                    <p id="time-min-1day"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: rgb(240, 240, 240)">Cao nhất</th>
+                                <td style="padding-left: 10px;background-color: rgb(240, 240, 240)">
+                                    <p id="max-1day"></p>
+                                </td>
+                                <td style="background-color: rgb(240, 240, 240)">
+                                    <p id="time-max-1day"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: rgb(240, 240, 240)">Trung bình</th>
+                                <td style="padding-left: 10px;background-color: rgb(240, 240, 240)" colspan="2">
+                                    <p id="average-1day"></p>
+                                </td>
+                            </tr>
+
+                            <!-- 3 ngày -->
+                            <tr>
+                                <th style="background-color: #fff; text-align: center; width:20%" rowspan="3">3 NGÀY
+                                </th>
+                                <th style="background-color: #fff; width:25%">Thấp nhất</th>
+                                <td style="padding-left: 10px;background-color: #fff; width:25%">
+                                    <p id="min-3day"></p>
+                                </td>
+                                <td style="background-color: #fff; width:30%">
+                                    <p id="time-min-3day"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: #fff">Cao nhất</th>
+                                <td style="padding-left: 10px;background-color: #fff">
+                                    <p id="max-3day"></p>
+                                </td>
+                                <td style="background-color: #fff">
+                                    <p id="time-max-3day"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: #fff">Trung bình</th>
+                                <td style="padding-left: 10px;background-color: #fff" colspan="2">
+                                    <p id="average-3day"></p>
+                                </td>
+                            </tr>
+
+                            <!-- 7 ngày -->
+                            <tr>
+                                <th style="background-color: rgb(240, 240, 240); text-align: center; width:20%" rowspan="3">7 NGÀY</th>
+                                <th style="background-color: rgb(240, 240, 240); width:25%">Thấp nhất</th>
+                                <td style="padding-left: 10px;background-color: rgb(240, 240, 240); width:25%">
+                                    <p id="min-7day"></p>
+                                </td>
+                                <td style="background-color: rgb(240, 240, 240); width:30%">
+                                    <p id="time-min-7day"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: rgb(240, 240, 240)">Cao nhất</th>
+                                <td style="padding-left: 10px;background-color: rgb(240, 240, 240)">
+                                    <p id="max-7day"></p>
+                                </td>
+                                <td style="background-color: rgb(240, 240, 240)">
+                                    <p id="time-max-7day"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: rgb(240, 240, 240)">Trung bình</th>
+                                <td style="padding-left: 10px;background-color: rgb(240, 240, 240)" colspan="2">
+                                    <p id="average-7day"></p>
+                                </td>
+                            </tr>
+
+                            <!-- 15 ngày -->
+                            <tr>
+                                <th style="background-color: #fff; text-align: center; width:20%" rowspan="3">15 NGÀY
+                                </th>
+                                <th style="background-color: #fff; width:25%">Thấp nhất</th>
+                                <td style="padding-left: 10px;background-color: #fff; width:25%">
+                                    <p id="min-15day"></p>
+                                </td>
+                                <td style="background-color: #fff; width:30%">
+                                    <p id="time-min-15day"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: #fff">Cao nhất</th>
+                                <td style="padding-left: 10px;background-color: #fff">
+                                    <p id="max-15day"></p>
+                                </td>
+                                <td style="background-color: #fff">
+                                    <p id="time-max-15day"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: #fff">Trung bình</th>
+                                <td style="padding-left: 10px;background-color: #fff" colspan="2">
+                                    <p id="average-15day"></p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+
+                <script src="./js_index_2/table.js"></script>
+            </div>
+        </div>
+
+        <div id="footer">
+            <img class="footer-img" src="./assets/images/logo_ctu/1024px-Logo_Dai_hoc_Can_Tho.svg.png" alt="">
+            <div class="info">
+                <p class="footer-header">Trường ĐH Cần Thơ - Khoa Công Nghệ - Bộ môn Tự động hóa</p>
+                <p class="footer-content">LVTN - Hệ thống quan trắc mực nước tại các trạm bơm xả nước thải trên địa bàn TP. Bạc Liêu dựa trên nền tảng AWS IoT Core</p>
+                <div class="footer-sub">
+                    <p>Sinh viên thực hiện: Nguyễn Nhựt Triều - B1709122 & Lý Quang Huy - B1812035</p>
+                    <p>Giảng viên hướng dẫn: TS. Nguyễn Văn Khanh</p>
+                </div>
+            </div>
+
+            <div class="contact">
+                <i class="ti-info-alt"></i>
+                <p class="contact-header">Thông tin liên hệ</p>
+                <div class="contact-mail">
+                    <i class="ti-email"></i>
+                    <p>Email: nntrieu201199@gmail.com</p>
+                </div>
+                <div class="contact-phone">
+                    <i class="ti-mobile"></i>
+                    <p>SĐT: (+84) 947 460 807</p>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

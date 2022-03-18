@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="refresh" content="300">
+    <meta permissions-policy: interest-cohort=()>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trạm 3</title>
+    <link rel="stylesheet" href="./assets/fonts/themify-icons/themify-icons.css">
+    <link rel="icon" href="./assets/images/logo_ctu/1024px-Logo_Dai_hoc_Can_Tho.svg.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
+    <script src="./js_index_2/framework_excel3.js"></script>
+    <style>
+        * {
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+        
+        body {
+            /* height: 100%; */
+            width: 1800px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 0px;
+        }
+        
+        .main {
+            margin: 0 20px;
+        }
+        
+        .title-box {
+            display: flex;
+        }
+        
+        .chart-title {
+            font-size: 25px;
+        }
+        
+        .title-box button {
+            height: 30px;
+            width: 30px;
+            margin: 20px 0 0 10px;
+            padding: 2px 2px 0 1px;
+            text-align: center;
+            color: black;
+            font-size: 21px;
+            background-color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .title-box button:hover {
+            background-color: rgb(231, 226, 226);
+        }
+        
+        .chart-line {
+            width: 100%;
+            margin-bottom: 15px;
+            height: 1px;
+            background: #ccc;
+        }
+        
+        .chart-box {
+            border-radius: 5px;
+            border: solid 2px #e3e3e3;
+            padding: 15px 10px 0px 10px;
+        }
+        
+        .button-box-chart {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .button-box-chart .pdf-btn {
+            margin-right: 900px;
+        }
+        
+        .button-box-chart .plot-btn {
+            margin-left: 10px;
+        }
+        
+        .button-box-chart .data-btn {
+            margin-left: 5px;
+        }
+        
+        .button-box-chart .reset-btn {
+            margin-left: 50px;
+        }
+        
+        .filter-box button,
+        .button-box-chart button {
+            font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            font-size: 15px;
+            padding: 3px 10px 4px 10px;
+            margin: 10px 5px;
+            background-color: grey;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .button-box-chart .next-btn {
+            padding: 4px 15px 3px 15px;
+        }
+        
+        button:active {
+            transform: translateY(2px);
+        }
+        
+        button:disabled {
+            background-color: white;
+            color: grey;
+            cursor: default;
+        }
+        
+        button:hover {
+            background-color: rgb(110, 110, 110);
+        }
+        
+        button:disabled:hover {
+            background-color: white;
+            color: grey;
+        }
+        
+        #change_chart {
+            float: right;
+            border-radius: .25rem;
+            cursor: pointer;
+            font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            width: 180px;
+            height: 38px;
+            font-size: 18px;
+            padding: 0 0 3px 10px;
+            margin-top: -50px;
+            color: white;
+            background-color: grey;
+        }
+        
+        #change_chart:hover {
+            background-color: rgb(110, 110, 110);
+        }
+        
+        #change_chart:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+        }
+        
+        .filter-box {
+            height: 100%;
+            margin: 15px 0;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: solid 2px #e3e3e3;
+            background-color: #f5f5f5;
+            font-size: 17px;
+        }
+        
+        .filter-box label {
+            font-weight: 600;
+        }
+        
+        #table-box {
+            background-color: white;
+            margin: 10px 0;
+            font-size: 14px;
+            display: none;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            padding: 6px;
+            background-color: #ccc;
+        }
+        
+        td {
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            padding: 3px;
+        }
+        
+        tr:nth-child(even):hover,
+        tr:hover {
+            background-color: rgb(221, 221, 221);
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        /* Scroll table */
+        
+        .fixTableHead {
+            overflow-y: auto;
+            height: 400px;
+        }
+        
+        .fixTableHead thead th {
+            position: sticky;
+            top: 0;
+        }
+        
+        #excel-download {
+            display: none;
+            float: right;
+            margin: 10px 0;
+        }
+        
+        #display-btn {
+            margin-left: 5px;
+            display: none;
+        }
+        /* Tabet: width >=740px and width <1024px */
+        
+        @media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+            body {
+                width: 100%;
+                margin-top: 0px;
+            }
+            .main {
+                margin: 0 10px;
+            }
+            .chart-title {
+                font-size: 18px;
+                margin: 10px;
+            }
+            .title-box button {
+                display: none;
+            }
+            .chart-line {
+                width: 100%;
+                margin-bottom: 10px;
+                height: 1px;
+                background: #ccc;
+            }
+            .chart-box {
+                display: block;
+                border-radius: 5px;
+                border: solid 2px #e3e3e3;
+                padding: 10px 5px 0px 5px;
+            }
+            .button-box-chart {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            #change_chart {
+                float: right;
+                border-radius: .15rem;
+                cursor: pointer;
+                font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+                width: 110px;
+                height: 28px;
+                font-size: 15px;
+                padding: 0 0 3px 5px;
+                margin-top: -35px;
+                color: white;
+                background-color: grey;
+            }
+            .chart-box {
+                border-radius: 3px;
+                border: solid 2px #e3e3e3;
+                padding: 5px 2px 0px 2px;
+            }
+            .button-box-chart {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .button-box-chart .pdf-btn {
+                margin-right: 40%;
+            }
+            .button-box-chart .next-btn {
+                padding: 4px 10px;
+            }
+            .button-box-chart .plot-btn {
+                margin-left: 10px;
+            }
+            .button-box-chart .data-btn {
+                margin-left: 5px;
+            }
+            .button-box-chart .reset-btn {
+                margin-left: 50px;
+            }
+            .filter-box button,
+            .button-box-chart button {
+                font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+                font-size: 14px;
+                padding: 4px 5px;
+                margin: 5px 3px;
+                background-color: grey;
+                color: white;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+            button:active {
+                transform: translateY(1px);
+            }
+            .filter-box {
+                height: 100%;
+                margin: 10px 0;
+                padding: 5px 10px;
+                border-radius: 3px;
+                border: solid 2px #e3e3e3;
+                background-color: #f5f5f5;
+                font-size: 15px;
+            }
+            .filter-box label {
+                font-weight: 600;
+                font-size: 15px;
+            }
+            #table-box {
+                background-color: white;
+                margin: 5px 0;
+                font-size: 12px;
+                display: none;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th {
+                padding: 6px;
+                background-color: #ccc;
+            }
+            td {
+                text-align: center;
+                border-bottom: 1px solid #ddd;
+                padding: 3px;
+            }
+            .fixTableHead {
+                overflow-y: auto;
+                height: 300px;
+            }
+            #excel-download {
+                float: right;
+                margin: 5px 0;
+            }
+        }
+        /* Mobile: width < 740px -------------------------------------------------------- */
+        
+        @media only screen and (max-width: 46.1875em) {
+            body {
+                width: 100%;
+                margin-top: 0px;
+            }
+            .main {
+                margin: 5px 2px;
+            }
+            .chart-title {
+                font-size: 15px;
+                margin: 5px;
+            }
+            .title-box button {
+                display: none;
+            }
+            .chart-line {
+                width: 100%;
+                margin-bottom: 5px;
+                margin-top: 2px;
+                height: 1px;
+                background: #ccc;
+            }
+            .chart-box {
+                display: block;
+                border-radius: 5px;
+                border: solid 2px #e3e3e3;
+                padding: 10px 5px 0px 5px;
+            }
+            .button-box-chart {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            #change_chart {
+                float: right;
+                border-radius: .15rem;
+                cursor: pointer;
+                font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+                width: 100px;
+                height: 25px;
+                font-size: 13px;
+                padding: 0 0 0px 5px;
+                margin-top: -27px;
+                color: white;
+                background-color: grey;
+            }
+            .chart-box {
+                border-radius: 3px;
+                border: solid 2px #e3e3e3;
+                padding: 5px 2px 0px 2px;
+            }
+            canvas {
+                width: 500px;
+                height: 200px;
+            }
+            .button-box-chart {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .button-box-chart .pdf-btn {
+                margin-right: 0;
+            }
+            .button-box-chart .next-btn {
+                padding: 4px 10px;
+            }
+            .button-box-chart .plot-btn {
+                margin-left: 0;
+            }
+            .button-box-chart .data-btn {
+                margin-left: 5px;
+            }
+            .button-box-chart .reset-btn {
+                margin-left: 25%;
+            }
+            #display-btn {
+                margin-left: 2px;
+            }
+            .filter-box button,
+            .button-box-chart button {
+                font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+                font-size: 12px;
+                padding: 4px 5px;
+                margin: 5px 2px;
+                background-color: grey;
+                color: white;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+            button:active {
+                transform: translateY(1px);
+            }
+            .toggle-btn {
+                display: none;
+            }
+            #excel-download {
+                float: right;
+                /* display: inline-block; */
+                margin: 5px 2px;
+            }
+            .filter-box {
+                height: 100%;
+                margin: 5px 0;
+                padding: 5px 10px;
+                border-radius: 3px;
+                border: solid 2px #e3e3e3;
+                background-color: #f5f5f5;
+                font-size: 13px;
+            }
+            .filter-box label {
+                font-weight: 600;
+                font-size: 13px;
+            }
+            #table-box {
+                background-color: white;
+                margin: 5px 0;
+                font-size: 10px;
+                display: none;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th {
+                padding: 6px;
+                background-color: #ccc;
+            }
+            td {
+                text-align: center;
+                border-bottom: 1px solid #ddd;
+                padding: 3px;
+            }
+            .fixTableHead {
+                overflow-y: auto;
+                height: 300px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="main">
+        <div>
+            <div class="title-box">
+                <h1 class="chart-title">Trạm 3</h1>
+                <button onclick="window.location.reload()"><i class="ti-reload"></i></button>
+            </div>
+            <div class="select-box">
+                <select id="change_chart">
+                    <option id="live-id" value="live">Live</option>
+                    <option value="1-ngay">1 ngày</option>
+                    <option value="3-ngay">3 ngày</option>
+                    <option value="7-ngay">7 ngày</option>
+                    <option value="15-ngay">15 ngày</option>
+                </select>
+            </div>
+            <div class="chart-line"></div>
+            <div class="chart-box">
+                <canvas id="myChart" height="477px" width="1736px"></canvas>
+
+                <div class="button-box-chart">
+                    <button class="next-btn" id="previous" onclick="nextData(-24, -24)"><i class="ti-control-backward"></i></button>
+                    <button class="next-btn" id="next" onclick="nextData(24, 24)"><i class="ti-control-forward"></i></button>
+                    <button class="reset-btn" onclick="resetData()">Reset</button>
+                    <button class="pdf-btn" onclick="downloadPDF()"><i style="margin: 0 5px 0 -3px; font-size: 14px;" class="ti-download"></i>Download PDF</button>
+                    <div class="toggle-btn">
+                        <button onclick="toggleData(0)">Trạm 1</button>
+                        <button style="margin-left: 0px" onclick="toggleData(1)">Trung bình</button>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-box">
+                <label>Start: </label><input style="margin-right: 5px;" id="start" type="date" min="" max="" value=""> <label>End: </label><input id="end" type="date" min="" max="" value="">
+                <button class="plot-btn" onclick="filterDate_Chart()"><i style="margin: 0 5px 0 -3px; font-size: 14px;" class="ti-stats-up"></i>Plot</button>
+                <button class="data-btn" onclick="filterDate_Table()"><i style="margin: 0 5px 0 -3px; font-size: 14px;" class="ti-view-list-alt"></i>Data</button>
+                <button id="display-btn" onclick="Display_Table()">Hide table</button>
+                <button id="excel-download"><i style="margin: 0 5px 0 -3px; font-size: 14px;" class="ti-download"></i>Download Excel</button>
+
+                <div class="fixTableHead" id="table-box">
+                    <table id="table-data">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time (GMT+7)</th>
+                                <th>Distance (m)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="body-table">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>
+
+<script>
+    var myChart;
+    var array_line_alert = new Array();
+
+    var array_distance_filter = new Array();
+    var array_time_filter = new Array();
+    var array_avg_filter = new Array();
+    var array_avg_filter_0 = new Array();
+    var array_date_filter = new Array();
+
+    var array_distance_live = new Array();
+    var array_time_live = new Array();
+    var array_avg_live = new Array();
+    var array_avg_live_0 = new Array();
+
+    var array_distance_1ngay = new Array();
+    var array_time_1ngay = new Array();
+    var array_avg_1ngay = new Array();
+    var array_avg_1ngay_0 = new Array();
+
+    var array_distance_3ngay = new Array();
+    var array_time_3ngay = new Array();
+    var array_avg_3ngay = new Array();
+    var array_avg_3ngay_0 = new Array();
+
+    var array_distance_7ngay = new Array();
+    var array_time_7ngay = new Array();
+    var array_avg_7ngay = new Array();
+    var array_avg_7ngay_0 = new Array();
+
+    var array_distance_15ngay = new Array();
+    var array_time_15ngay = new Array();
+    var array_avg_15ngay = new Array();
+    var array_avg_15ngay_0 = new Array();
+
+    var array_distance = new Array();
+    var array_thamchieu = new Array();
+
+    AWS.config.update({
+        region: "ap-northeast-1",
+        endpoint: "http://dynamodb.ap-northeast-1.amazonaws.com",
+        accessKeyId: "AKIAXKZISWAEZWPSCIVL",
+        secretAccessKey: "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",
+    });
+
+    var params_chart1 = {
+        TableName: "water_level",
+        KeyConditionExpression: "device_id = :a",
+        ExpressionAttributeValues: {
+            ":a": 3,
+        },
+    };
+
+    var docClient = new AWS.DynamoDB.DocumentClient();
+    docClient.query(params_chart1, function(err, data) {
+        for (let i = 0; i < data.Items.length; i++) {
+            distance_data = JSON.parse(data.Items[i].device_data.Distance);
+            array_distance.push(distance_data);
+        }
+
+        // Tham chiếu TB
+        array_thamchieu = array_distance;
+        avg_thamchieu = array_thamchieu = array_thamchieu.reduce((a, b) => a + b, 0) / array_thamchieu.length;
+        avg_thamchieu_final = Math.round(avg_thamchieu * 1000) / 1000; // Làm tròn
+        for (let i = 0; i < array_distance.length; i++) {
+            thamchieu_data = array_distance[i] - avg_thamchieu_final;
+            thamchieu_data_final = Math.round(thamchieu_data * 1000) / 1000; // Làm tròn
+            array_distance_live.push(thamchieu_data_final);
+            array_distance_1ngay.push(thamchieu_data_final);
+            array_distance_3ngay.push(thamchieu_data_final);
+            array_distance_7ngay.push(thamchieu_data_final);
+            array_distance_15ngay.push(thamchieu_data_final);
+            array_distance_filter.push(thamchieu_data_final);
+
+            if (array_distance_live.length > 145) {
+                array_distance_live.shift();
+            }
+            if (array_distance_1ngay.length > 145) {
+                array_distance_1ngay.shift();
+            }
+            if (array_distance_3ngay.length > 433) {
+                array_distance_3ngay.shift();
+            }
+            if (array_distance_7ngay.length > 1009) {
+                array_distance_7ngay.shift();
+            }
+            if (array_distance_15ngay.length > 2161) {
+                array_distance_15ngay.shift();
+            }
+            alert_data = 0.5;
+            array_line_alert.push(alert_data);
+        }
+        // AVERGAGE
+        for (let i = 0; i < array_distance_live.length; i++) {
+            avg_data_1 = array_distance_live[i];
+            array_avg_live_0.push(avg_data_1);
+
+            avg_live = array_avg_live_0.reduce((a, b) => a + b, 0) / array_avg_live_0.length;
+            avg_live_final = Math.round(avg_live * 1000) / 1000; // Làm tròn
+            array_avg_live.push(avg_live_final);
+        }
+
+        for (let i = 0; i < array_distance_1ngay.length; i++) {
+            avg_data_1 = array_distance_1ngay[i];
+            array_avg_1ngay_0.push(avg_data_1);
+
+            avg_1ngay = array_avg_1ngay_0.reduce((a, b) => a + b, 0) / array_avg_1ngay_0.length;
+            avg_1ngay_final = Math.round(avg_1ngay * 1000) / 1000; // Làm tròn
+            array_avg_1ngay.push(avg_1ngay_final);
+        }
+
+        for (let i = 0; i < array_distance_3ngay.length; i++) {
+            avg_data_3 = array_distance_3ngay[i];
+            array_avg_3ngay_0.push(avg_data_3);
+
+            avg_3ngay = array_avg_3ngay_0.reduce((a, b) => a + b, 0) / array_avg_3ngay_0.length;
+            avg_3ngay_final = Math.round(avg_3ngay * 1000) / 1000; // Làm tròn
+            array_avg_3ngay.push(avg_3ngay_final);
+        }
+
+        for (let i = 0; i < array_distance_7ngay.length; i++) {
+            avg_data_7 = array_distance_7ngay[i];
+            array_avg_7ngay_0.push(avg_data_7);
+
+            avg_7ngay = array_avg_7ngay_0.reduce((a, b) => a + b, 0) / array_avg_7ngay_0.length;
+            avg_7ngay_final = Math.round(avg_7ngay * 1000) / 1000; // Làm tròn
+            array_avg_7ngay.push(avg_7ngay_final);
+        }
+
+        for (let i = 0; i < array_distance_15ngay.length; i++) {
+            avg_data_15 = array_distance_15ngay[i];
+            array_avg_15ngay_0.push(avg_data_15);
+
+            avg_15ngay = array_avg_15ngay_0.reduce((a, b) => a + b, 0) / array_avg_15ngay_0.length;
+            avg_15ngay_final = Math.round(avg_15ngay * 1000) / 1000; // Làm tròn
+            array_avg_15ngay.push(avg_15ngay_final);
+        }
+        // -----------------------------------------------------------------------------
+
+        // TIME
+        for (let i = 0; i < data.Items.length; i++) {
+            sample_time_data = JSON.parse(data.Items[i].sample_time);
+            const time_stamp = new Date(sample_time_data);
+            min = time_stamp.getMinutes();
+            hour = time_stamp.getHours();
+
+            const month_name = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+            date = time_stamp.getDate();
+            month = month_name[time_stamp.getMonth()];
+            year = time_stamp.getFullYear();
+
+            if (min < 10) {
+                min = '0' + min;
+            }
+            if (date < 10) {
+                date = '0' + date;
+            }
+            if (month < 10) {
+                month = '0' + month;
+            }
+            full_time = hour + ":" + min + ' ' + date + "/" + month;
+
+            date_filter = year + '-' + month + '-' + date;
+            array_date_filter.push(date_filter)
+
+            array_time_live.push(full_time)
+            array_time_filter.push(time_stamp);
+            array_time_1ngay.push(time_stamp);
+            array_time_3ngay.push(time_stamp);
+            array_time_7ngay.push(time_stamp);
+            array_time_15ngay.push(time_stamp);
+
+            if (array_time_live.length > 145) {
+                array_time_live.shift();
+            }
+            if (array_time_1ngay.length > 145) {
+                array_time_1ngay.shift();
+            }
+            if (array_time_3ngay.length > 433) {
+                array_time_3ngay.shift();
+            }
+            if (array_time_7ngay.length > 1009) {
+                array_time_7ngay.shift();
+            }
+            if (array_time_15ngay.length > 2160) {
+                array_time_15ngay.shift();
+            }
+        }
+        min_filter = array_date_filter[0];
+
+        document.getElementById('start').value = date_filter;
+        document.getElementById('start').min = min_filter;
+        document.getElementById('start').max = date_filter;
+
+        document.getElementById('end').max = date_filter;
+        document.getElementById('end').min = min_filter;
+        document.getElementById('end').value = date_filter;
+    });
+
+    function showChart() {
+        // Biểu đồ
+        const x_data = array_time_live;
+        const y_data = array_distance_live;
+        const avg_data = array_avg_live;
+        const x_length = array_time_live.length;
+        const x_labels = x_data.map(label => label.split(' '));
+
+        const window_width = window.innerWidth;
+        if (window_width < 740) {
+            var number_Ratio = 1.3
+        } else if (window_width >= 740 && window_width < 1024) {
+            var number_Ratio = 2.5
+        } else {
+            var number_Ratio = 3.6
+        }
+
+        var bgColor = {
+            id: 'bgColor',
+            beforeDraw: (chart, options) => {
+                const {
+                    ctx,
+                    width,
+                    height
+                } = chart;
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, width, height)
+                ctx.restore();
+            },
+        }
+
+        const ctx = document.getElementById("myChart").getContext("2d");
+        myChart = new Chart(ctx, {
+            data: {
+                labels: x_labels,
+                datasets: [{ //0
+                    type: "line",
+                    label: "Trạm 3",
+                    data: y_data,
+                    backgroundColor: 'rgb(54, 162, 235)',
+                    borderColor: 'rgb(54, 162, 235)',
+                    borderWidth: 3,
+                    cubicInterpolationMode: 'monotone',
+                    pointRadius: 0, // xóa dot
+                    pointStyle: 'rect',
+                    hoverRadius: 8,
+                }, { //1
+                    type: "line",
+                    label: "Trung bình",
+                    data: avg_data,
+                    backgroundColor: 'white',
+                    borderColor: 'red',
+                    borderWidth: 3,
+                    borderDash: [10, 8.3],
+                    cubicInterpolationMode: 'monotone',
+                    pointRadius: 0, // xóa dot
+                    pointStyle: 'rect',
+                    hoverRadius: 8,
+                }, {
+                    type: "line",
+                    label: "Alert",
+                    data: array_line_alert,
+                    backgroundColor: 'rgb(255, 159, 64)',
+                    borderColor: 'rgb(255, 159, 64)',
+                    borderWidth: 1,
+                    pointRadius: 0, // xóa dot
+                    pointStyle: 'none',
+                    hoverRadius: 0,
+                }],
+            },
+            options: {
+                aspectRatio: number_Ratio,
+                responsive: true,
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'black'
+                        },
+                        min: x_length - 24,
+                        max: x_length,
+                    },
+                    y: {
+                        beginAtZero: true,
+                        // max: 240,
+                        title: {
+                            display: false,
+                            text: 'Độ cao (m)',
+                            font: {
+                                // family: 'Times',
+                                size: 17,
+                                weight: 'bold',
+                            },
+                            color: 'black'
+                        },
+                        ticks: {
+                            color: 'black'
+                        },
+                    },
+                },
+                onHover: (event, chartElement) => {
+                    event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 14,
+                            },
+                            color: 'black',
+                            boxWidth: 50,
+                            boxHeight: 1.5
+                        },
+                    },
+                    tooltip: {
+                        filter: (tooltipItem) => {
+                            if (tooltipItem.datasetIndex !== 2) {
+                                return tooltipItem
+                            }
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
+            },
+            plugins: [bgColor],
+        })
+    }
+
+
+    // Hiển thị biểu đồ
+    function toggleData(value) {
+        const showValue = myChart.isDatasetVisible(value);
+        if (showValue === true) {
+            myChart.hide(value);
+        }
+        if (showValue === false) {
+            myChart.show(value);
+        }
+    };
+
+    // Next - Previous data
+    function nextData(start, end) {
+        const x_length = array_time_live.length;
+        const startScale = myChart.options.scales.x.min + start;
+        const endScale = myChart.options.scales.x.max + end;
+
+        myChart.options.scales.x.min = startScale;
+        myChart.options.scales.x.max = endScale;
+        document.getElementById('previous').disabled = false;
+        document.getElementById('next').disabled = false;
+
+        if (endScale > x_length) {
+            myChart.options.scales.x.min = x_length - 24;
+            myChart.options.scales.x.max = x_length - 1;
+            document.getElementById('next').disabled = true;
+        };
+
+        if (startScale < 0) {
+            myChart.options.scales.x.min = 0;
+            myChart.options.scales.x.max = 23;
+            document.getElementById('previous').disabled = true;
+        };
+        myChart.update();
+    }
+    setTimeout(showChart, 600);
+
+
+    // Change chart
+    change_chart.addEventListener('change', change_data);
+
+    function change_data() {
+        live_x = array_time_live;
+        live_x_length = array_time_live.length;
+        const x_labels = live_x.map(label => label.split(' '));
+        var x_scale_live = {
+            min: live_x_length - 24,
+            max: live_x_length,
+            ticks: {
+                color: 'black'
+            },
+        };
+
+        var x_scale_hour = {
+            type: 'time',
+            time: {
+                unit: 'hour',
+                stepSize: 2
+            },
+            ticks: {
+                color: 'black'
+            },
+        };
+
+        var x_scale_day = {
+            type: 'time',
+            time: {
+                unit: 'day',
+                // stepSize: 1
+            },
+            ticks: {
+                color: 'black'
+            },
+        };
+
+        const change_value = document.getElementById('change_chart').value;
+        if (change_value == 'live') {
+            myChart.data.datasets[0].data = array_distance_live;
+            myChart.data.datasets[1].data = array_avg_live;
+            myChart.data.labels = x_labels;
+            myChart.options.scales.x = x_scale_live;
+
+            document.getElementById('next').disabled = false;
+            document.getElementById('previous').disabled = false;
+        }
+        if (change_value == '1-ngay') {
+            myChart.data.datasets[0].data = array_distance_1ngay;
+            myChart.data.datasets[1].data = array_avg_1ngay;
+            myChart.data.labels = array_time_1ngay;
+            myChart.options.scales.x = x_scale_hour
+
+            document.getElementById('next').disabled = true;
+            document.getElementById('previous').disabled = true;
+        }
+        if (change_value == '3-ngay') {
+            myChart.data.datasets[0].data = array_distance_3ngay;
+            myChart.data.datasets[1].data = array_avg_3ngay;
+            myChart.data.labels = array_time_3ngay;
+            myChart.options.scales.x = x_scale_day;
+
+            document.getElementById('next').disabled = true;
+            document.getElementById('previous').disabled = true;
+        }
+        if (change_value == '7-ngay') {
+            myChart.data.datasets[0].data = array_distance_7ngay;
+            myChart.data.datasets[1].data = array_avg_7ngay;
+            myChart.data.labels = array_time_7ngay;
+            myChart.options.scales.x = x_scale_day;
+
+            document.getElementById('next').disabled = true;
+            document.getElementById('previous').disabled = true;
+        }
+        if (change_value == '15-ngay') {
+            myChart.data.datasets[0].data = array_distance_15ngay;
+            myChart.data.datasets[1].data = array_avg_15ngay;
+            myChart.data.labels = array_time_15ngay;
+            myChart.options.scales.x = x_scale_day;
+
+            document.getElementById('next').disabled = true;
+            document.getElementById('previous').disabled = true;
+        }
+        myChart.update();
+    }
+
+    // RESET CHART
+    function resetData() {
+        live_x = array_time_live;
+        live_x_length = array_time_live.length;
+        const x_labels = live_x.map(label => label.split(' '));
+
+        var x_scale_live = {
+            min: live_x_length - 24,
+            max: live_x_length,
+            ticks: {
+                color: 'black'
+            },
+        };
+        myChart.data.datasets[0].data = array_distance_live;
+        myChart.data.datasets[1].data = array_avg_live;
+        myChart.data.labels = x_labels;
+        myChart.options.scales.x = x_scale_live;
+        myChart.update();
+
+        document.getElementById('next').disabled = false;
+        document.getElementById('previous').disabled = false;
+
+        document.getElementById('change_chart').value = 'live'
+
+    }
+    //------------------------------------------------------------------------------------------
+
+    // PDF--------------------------------------------------------------------------------------
+    function downloadPDF() {
+        const canvas = document.getElementById('myChart');
+        const canvasImage = canvas.toDataURL('image/jpeg', 1.0);
+        const window_width = window.innerWidth;
+        if (window_width < 740) {
+            let pdf = new jsPDF('portrait');
+            pdf.setFontSize(15);
+            pdf.addImage(canvasImage, 'JPEG', 5, 60, 200, 160);
+            pdf.save('water_level_data_1.pdf');
+        } else if (window_width >= 740 && window_width < 1024) {
+            let pdf = new jsPDF('landscape');
+            pdf.setFontSize(15);
+            pdf.addImage(canvasImage, 'JPEG', 5, 40, 280, 80);
+            pdf.save('water_level_data_1.pdf');
+        } else {
+            let pdf = new jsPDF('landscape');
+            pdf.setFontSize(15);
+            pdf.addImage(canvasImage, 'JPEG', 5, 40, 280, 80);
+            pdf.save('Tram_3.pdf');
+        }
+    }
+    //-------------------------------------------------------------------------------------------
+
+    //Fillter CHART------------------------------------------------------------------------------
+    function filterDate_Chart() {
+        document.getElementById('next').disabled = true;
+        document.getElementById('previous').disabled = true;
+
+        const data_filter = array_distance_filter;
+
+        var x_scale_filter_day = {
+            type: 'time',
+            time: {
+                unit: 'day',
+            },
+            ticks: {
+                color: 'black'
+            },
+        };
+        var x_scale_filter_hour = {
+            type: 'time',
+            time: {
+                unit: 'hour',
+                stepSize: 2
+            },
+            ticks: {
+                color: 'black'
+            },
+        };
+
+        const start1 = new Date(document.getElementById('start').value);
+        const start = start1.setHours(0, 0, 0, 0);
+        const end1 = new Date(document.getElementById('end').value);
+        const end = end1.setHours(23, 59, 59, 999);
+
+        const filterDates = array_time_filter.filter(date => date >= start && date <= end)
+
+        myChart.data.labels = filterDates;
+
+        //working on the data
+        const startArray = array_time_filter.indexOf(filterDates[0])
+        const endArray = array_time_filter.indexOf(filterDates[filterDates.length - 1])
+
+        const time_start = array_time_filter[startArray].getDate();
+        const time_end = array_time_filter[endArray].getDate();
+
+        const copydatafilter = [...data_filter]
+        copydatafilter.splice(endArray + 1, filterDates.length);
+        copydatafilter.splice(0, startArray);
+
+        for (let i = 0; i < copydatafilter.length; i++) {
+            avg_data_0 = copydatafilter[i];
+            array_avg_filter_0.push(avg_data_0);
+
+            avg_filter = array_avg_filter_0.reduce((a, b) => a + b, 0) / array_avg_filter_0.length;
+            avg_filter_final = Math.round(avg_filter * 1000) / 1000; // Làm tròn
+            array_avg_filter.push(avg_filter_final);
+        }
+        abc = time_end - time_start;
+        if (time_end - time_start > 1) {
+            myChart.options.scales.x = x_scale_filter_day;
+        } else {
+            myChart.options.scales.x = x_scale_filter_hour;
+        }
+
+        myChart.data.datasets[0].data = copydatafilter;
+        myChart.data.datasets[1].data = array_avg_filter;
+        myChart.update();
+
+        length_clear_0 = array_avg_filter_0.length;
+        length_clear_1 = array_avg_filter.length;
+
+        array_avg_filter_0.splice(0, length_clear_0)
+        array_avg_filter.splice(0, length_clear_1)
+    }
+    //-------------------------------------------------------------------------------------------
+
+    //Fillter TABLE------------------------------------------------------------------------------
+    function filterDate_Table() {
+        //Delete table
+        var row_length = document.getElementById("body-table").rows.length;
+        for (let i = 0; i < row_length; i++) {
+            document.getElementById("body-table").deleteRow(0, i);
+        }
+        //---------------------------------------------
+
+        const data_filter_tb = array_distance_filter;
+        const start1 = new Date(document.getElementById('start').value);
+        const start = start1.setHours(0, 0, 0, 0);
+        const end1 = new Date(document.getElementById('end').value);
+        const end = end1.setHours(23, 59, 59, 999);
+
+        const filterDates = array_time_filter.filter(date => date >= start && date <= end)
+
+        var array_date_tb = new Array();
+        var array_time_tb = new Array();
+
+        for (let i = 0; i < filterDates.length; i++) {
+            time_filter_tb = filterDates[i]
+            min_tb = time_filter_tb.getMinutes();
+            hour_tb = time_filter_tb.getHours();
+            const month_name = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+            date_tb = time_filter_tb.getDate();
+            month_tb = month_name[time_filter_tb.getMonth()];
+            year_tb = time_filter_tb.getFullYear();
+
+            if (min_tb < 10) {
+                min_tb = '0' + min_tb;
+            }
+            if (date_tb < 10) {
+                date_tb = '0' + date_tb;
+            }
+            if (month_tb < 10) {
+                month_tb = '0' + month_tb;
+            }
+            full_time_tb = hour_tb + ":" + min_tb;
+            full_date_tb = date_tb + "/" + month_tb + "/" + year_tb
+            array_date_tb.push(full_date_tb);
+            array_time_tb.push(full_time_tb);
+        }
+
+        //working on the data
+        const startArray = array_time_filter.indexOf(filterDates[0])
+        const endArray = array_time_filter.indexOf(filterDates[filterDates.length - 1])
+
+        const time_start = array_time_filter[startArray].getDate();
+        const time_end = array_time_filter[endArray].getDate();
+
+        const copydatafilter_tb = [...data_filter_tb]
+        copydatafilter_tb.splice(endArray + 1, filterDates.length);
+        copydatafilter_tb.splice(0, startArray);
+
+        //Show table
+        for (let i = 0; i < array_date_tb.length; i++) {
+            let trElement = document.createElement("tr")
+
+            let tdElement1 = document.createElement("td")
+            tdElement1.innerHTML = array_date_tb[i];
+
+            let tdElement2 = document.createElement("td")
+            tdElement2.innerHTML = array_time_tb[i];
+
+            let tdElement3 = document.createElement("td")
+            tdElement3.innerHTML = copydatafilter_tb[i];
+
+            trElement.appendChild(tdElement1)
+            trElement.appendChild(tdElement2)
+            trElement.appendChild(tdElement3)
+
+            let tdBody = document.getElementById("body-table")
+            tdBody.appendChild(trElement)
+        }
+        var showtable = document.getElementById("table-box");
+        showtable.style.display = "block";
+        var excel_btn = document.getElementById("excel-download");
+        excel_btn.style.display = "block";
+
+        var display_btn = document.getElementById("display-btn");
+        display_btn.style.display = "inline-block";
+        document.getElementById("display-btn").innerHTML = "Hide table"
+    }
+
+    function Display_Table() {
+        // Display table
+        var showtable = document.getElementById("table-box");
+        if (showtable.style.display === "none") {
+            showtable.style.display = "block";
+            document.getElementById("display-btn").innerHTML = "Hide table"
+        } else {
+            showtable.style.display = "none";
+            document.getElementById("display-btn").innerHTML = "Show table"
+        }
+        var excel_btn = document.getElementById("excel-download");
+        if (excel_btn.style.display === "none") {
+            excel_btn.style.display = "block";
+        } else {
+            excel_btn.style.display = "none";
+        }
+    }
+
+    // EXCEL DOWNLOAD----------------------------------------------------------------------
+    document.getElementById("excel-download").addEventListener('click', function() {
+        var table2excel = new Table2Excel();
+        table2excel.export(document.querySelectorAll("#table-data"));
+    });
+</script>

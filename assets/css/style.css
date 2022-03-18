@@ -1,0 +1,1223 @@
+/* Reset CSS */
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+
+/*Class chung*/
+
+.text-white {
+    color: #fff !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+
+/*End class chung*/
+
+body {
+    height: auto;
+    width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #f8fafb;
+}
+
+#header {
+    position: relative;
+    margin-top: 20px;
+    display: block;
+    height: 130px;
+    width: 100%;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+}
+
+#header .header-content {
+    color: black;
+    font-size: 28px;
+    padding: 20px 0 10px;
+    padding-left: 20px;
+}
+
+
+/* Tham chiếu dropdown */
+
+.dropbtn {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: white;
+    padding: 6px 12px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dropdown-thamchieu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 175px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    background-color: white;
+    outline: 0;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 8px 10px;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+}
+
+.dropdown-content a:hover {
+    background-color: #d1d1d1
+}
+
+.dropdown-thamchieu:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-thamchieu .dropbtn {
+    background-color: grey;
+}
+
+.header-sub {
+    font-size: 22px;
+    padding-left: 20px;
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+
+.header-date {
+    display: flex;
+    font-size: 21px;
+    font-style: italic;
+    position: absolute;
+    right: 0;
+    margin-right: 15px;
+}
+
+.btn-reload {
+    width: 30px;
+    height: 30px;
+    color: black;
+    font-size: 21px;
+    background: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    line-height: 1.6px;
+    padding-bottom: 2px;
+    transition: 0.3s;
+}
+
+#display_time {
+    display: inline-block;
+    font-size: 21px;
+    font-weight: 550;
+    font-style: italic;
+    margin: 0 5px;
+}
+
+.btn-reload:hover {
+    background-color: rgb(231, 226, 226);
+}
+
+.header-line {
+    width: 1260px;
+    margin-left: 20px;
+    margin-bottom: 15px;
+    height: 1px;
+    background: #ccc;
+}
+
+.alert-box {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: nowrap;
+    font-size: 16px;
+}
+
+.message-box {
+    width: 33.33333%;
+}
+
+#alert-1,
+#alert-2,
+#alert-3 {
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    display: none;
+    animation: alertbox 1s infinite;
+}
+
+.mid-message {
+    margin: 0 20px;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 17px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+
+#mini-chart {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.mini-chart-line {
+    width: 400px;
+    margin-left: 10px;
+    margin: 5px 0;
+    height: 1px;
+    background: #ccc;
+}
+
+.chart-box {
+    width: 33.33333%;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+    padding: 10px;
+    padding-top: 5px;
+}
+
+.chart-title {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.icon-full-screen a {
+    float: right;
+    color: black;
+    font-size: 22px;
+    text-decoration: none;
+    margin-top: -32px;
+    margin-right: -7px;
+    padding: 5px 5px 0 5px;
+    border-radius: 3px;
+    height: 32px;
+    line-height: 1.6px;
+    transition: 0.3s;
+}
+
+.icon-full-screen a:hover {
+    background-color: rgb(231, 226, 226);
+}
+
+#chart-1 {
+    width: 100%;
+}
+
+#chart-2 {
+    width: 100%;
+}
+
+#chart-3 {
+    width: 100%;
+}
+
+.tram-btn {
+    display: none;
+}
+
+.chart-4-box {
+    display: block;
+    width: 100%;
+    background: white;
+    margin-top: 30px;
+    margin-right: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+    padding: 10px 5px;
+}
+
+.chart-4-line {
+    width: 1280px;
+    margin-left: 20px;
+    margin: 10px 5px;
+    height: 1px;
+    background: #ccc;
+}
+
+#chart-4 {
+    width: 100%;
+}
+
+.button-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-box-mobile {
+    display: none;
+}
+
+.btn-chart4 {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 15px;
+    padding: 3px 10px 4px 10px;
+    margin: 10px 5px 5px 5px;
+    background-color: grey;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+a:active,
+button:active {
+    transform: translateY(2px);
+}
+
+button:disabled {
+    background-color: white;
+    color: grey;
+}
+
+button:disabled:hover {
+    background-color: white;
+    color: grey;
+    cursor: default;
+}
+
+.next-btn button {
+    padding: 3.5px 15px;
+    margin: 10px 0px 5px 5px;
+}
+
+.dropdown-thamchieu .dropbtn:hover,
+button:hover {
+    background-color: rgb(110, 110, 110);
+}
+
+.filter-box {
+    font-weight: 600;
+    font-size: 17px;
+    margin-left: 10px;
+}
+
+.button-box .toggle-btn button {
+    margin: 10px 5px 5px 0;
+}
+
+.pdf-btn button {
+    margin-right: 150px;
+}
+
+#change_chart {
+    float: right;
+    border-radius: .25rem;
+    cursor: pointer;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    width: 140px;
+    height: 35px;
+    font-size: 18px;
+    padding: 0 0 3px 10px;
+    margin-top: -32px;
+    margin-right: 5px;
+    color: white;
+    background-color: grey;
+}
+
+#change_chart:hover {
+    background-color: rgb(110, 110, 110);
+}
+
+#change_chart:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+}
+
+.content-title {
+    margin-top: 20px;
+    display: flex;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.map-title {
+    margin-right: 610px;
+}
+
+.ti-map-alt,
+.ti-view-list-alt {
+    margin: 5px 8px 0 10px;
+}
+
+#content {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.map-box {
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+    padding: 5px;
+    width: 60%;
+}
+
+.map-box:hover {
+    cursor: pointer;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+.table-box {
+    /* height: 547px; */
+    height: auto;
+    margin-left: 20px;
+    width: 40%;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+    padding: 10px;
+}
+
+.form-control {
+    border-radius: .25rem;
+    cursor: pointer;
+}
+
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+}
+
+#list-tram {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    padding: 0 0 3px 10px;
+}
+
+.font-15 {
+    font-size: 16px;
+}
+
+.text-bold {
+    /* font-style: italic; */
+    font-weight: 600;
+}
+
+.margin-left-5px {
+    margin-left: 5px;
+}
+
+.time-data {
+    margin-left: 50px;
+}
+
+table,
+th,
+td {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    padding: 6px 0 6px 8px;
+}
+
+th {
+    text-align: left;
+}
+
+.table-distance {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+#footer {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    display: flex;
+    height: 150px;
+    width: 100%;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+    font-size: 16px;
+}
+
+.info {
+    width: 70%;
+    padding: 10px;
+    text-align: left;
+    line-height: 1.5;
+}
+
+.footer-header {
+    font-weight: 600;
+    color: rgb(7, 66, 228);
+    margin-bottom: 5px;
+}
+
+.footer-content {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.footer-img {
+    width: 150px;
+    height: 100%;
+    padding: 10px;
+}
+
+.footter-line {
+    width: 470px;
+    margin-left: 10px;
+    margin: 3px 0;
+    height: 1px;
+    background: #ccc;
+}
+
+.contact {
+    width: 40%;
+    padding: 10px;
+    padding-left: 50px;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.contact-header {
+    font-weight: 600;
+    margin-bottom: 15px;
+    margin-top: -20px;
+}
+
+.ti-email,
+.ti-mobile {
+    float: left;
+    margin-top: 1.5px;
+    margin-right: 5px;
+    font-size: 18px;
+}
+
+.ti-info-alt {
+    margin-top: 20px;
+    font-size: 18px;
+    display: flex;
+    padding-left: 98px;
+}
+
+.contact-mail,
+.contact-phone {
+    text-align: left;
+    margin-bottom: 10px;
+    margin-left: 60px;
+}
+
+.contact-mail:hover,
+.contact-phone:hover {
+    font-weight: 600;
+}
+
+@keyframes alertbox {
+    from {
+        background-color: #f8fafb;
+    }
+    to {
+        background-color: #f44336;
+    }
+}
+
+
+/* Tabet: width >=740px and width <1024px */
+
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+    body {
+        height: auto;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        background: #f8fafb;
+    }
+    #header {
+        margin: 10px;
+        margin-bottom: 5px;
+        display: block;
+        height: 70px;
+        width: 100%;
+        background: white;
+        border-radius: 3px;
+        box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+        padding: 0 10px;
+    }
+    #header .header-content {
+        color: black;
+        font-size: 18px;
+        padding: 5px 0 5px;
+        padding-left: 0px;
+    }
+    .thamchieu-box {
+        display: none;
+    }
+    .header-sub {
+        font-size: 15px;
+        padding-left: 0;
+        display: flex;
+        width: 100%;
+        position: relative;
+    }
+    .header-date {
+        font-size: 15px;
+        display: flex;
+        position: absolute;
+        right: 0;
+        margin-right: 0px;
+    }
+    .btn-reload {
+        display: none;
+    }
+    .btn-reload:hover {
+        background-color: rgb(231, 226, 226);
+    }
+    #display_time {
+        display: inline-block;
+        font-size: 15px;
+        font-weight: 550;
+        font-style: italic;
+        margin: 0 5px;
+    }
+    .header-line {
+        width: 100%;
+        margin-left: 0px;
+        margin-bottom: 5px;
+        height: 1px;
+        background: #ccc;
+    }
+    #mini-chart {
+        display: none;
+    }
+    .alert-box {
+        margin: 0px 10px;
+        font-size: 12px;
+    }
+    .mid-message {
+        margin: 0 10px;
+    }
+    .closebtn {
+        margin-left: 10px;
+        font-size: 20px;
+        line-height: 11px;
+    }
+    .tram-btn {
+        display: flex;
+        width: 100%;
+    }
+    .tram-btn a:link,
+    .tram-btn a:visited {
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        text-decoration: none;
+        text-align: center;
+        font-size: 13px;
+        color: white;
+        background-color: grey;
+        padding: 4px 20px;
+        width: 33.33333%;
+        border-radius: 3px;
+        margin: 10px;
+        margin-top: 5px;
+    }
+    .tram-btn a:hover {
+        background-color: rgb(110, 110, 110);
+    }
+    .chart-4-box {
+        display: block;
+        width: 100%;
+        background: white;
+        margin-top: 0px;
+        border-radius: 3px;
+        box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+        padding: 5px 2px;
+    }
+    .chart-title {
+        font-size: 15px;
+        font-weight: 600
+    }
+    .chart-4-line {
+        width: 100%;
+        margin: 5px 0px;
+        height: 1px;
+        background: #ccc;
+    }
+    #chart-4 {
+        width: 100%;
+    }
+    .button-box {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .button-box-mobile {
+        display: none;
+    }
+    .btn-chart4 {
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        font-size: 12px;
+        padding: 4px 5px;
+        margin: 5px 2px;
+        background-color: grey;
+        color: white;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    a:active,
+    button:active {
+        transform: translateY(1px);
+    }
+    button:disabled {
+        background-color: white;
+        color: grey;
+    }
+    button:disabled:hover {
+        background-color: white;
+        color: grey;
+        cursor: default;
+    }
+    .next-btn {
+        display: flex;
+    }
+    .next-btn button {
+        padding: 4px 10px;
+        margin: 5px 2px
+    }
+    button:hover {
+        background-color: rgb(110, 110, 110);
+    }
+    .toggle-btn {
+        display: none;
+    }
+    .filter-box {
+        font-weight: 600;
+        font-size: 13px;
+        display: flex;
+        margin-right: 80px;
+        text-align: center;
+        align-items: center;
+    }
+    .pdf-btn button {
+        margin-right: 0px;
+    }
+    #change_chart {
+        float: right;
+        border-radius: .15rem;
+        cursor: pointer;
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        width: 100px;
+        height: 25px;
+        font-size: 13px;
+        padding: 0 0 3px 5px;
+        margin-top: -23px;
+        margin-right: 5px;
+        color: white;
+        background-color: grey;
+    }
+    #change_chart:hover {
+        background-color: rgb(110, 110, 110);
+    }
+    #change_chart:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+    }
+    .content-title {
+        display: none;
+    }
+    #content {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .map-box {
+        margin-top: 10px;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+        padding: 5px;
+        width: 100%;
+        height: 300px;
+    }
+    .map-box:hover {
+        cursor: pointer;
+    }
+    #map {
+        height: 100%;
+        width: 100%;
+    }
+    .table-box {
+        margin: 5px 0;
+        height: auto;
+        width: 100%;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+        padding: 5px;
+    }
+    .form-control {
+        border-radius: .15rem;
+        cursor: pointer;
+    }
+    .form-control:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+    }
+    #list-tram {
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        width: 100%;
+        height: 25px;
+        font-size: 13px;
+        padding: 0 0 1.5px 2.5px;
+    }
+    .font-15 {
+        font-size: 12px;
+    }
+    .text-bold {
+        /* font-style: italic; */
+        font-weight: 600;
+    }
+    .margin-left-5px {
+        margin-left: 5px;
+    }
+    .time-data {
+        margin-left: 50px;
+    }
+    table,
+    th,
+    td {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+        padding: 2.5px 0 2.5px 5px;
+    }
+    th {
+        text-align: left;
+    }
+    .table-distance {
+        font-size: 11px;
+        margin-top: 10px;
+    }
+    #footer {
+        margin: 15px 0;
+        margin-bottom: 10px;
+        display: flex;
+        height: 100px;
+        width: 100%;
+        background: white;
+        border-radius: 3px;
+        box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+        font-size: 12px;
+        align-items: center;
+    }
+    .info {
+        width: 100%;
+        padding: 5px;
+        text-align: left;
+        line-height: 1.5;
+        font-size: 12px;
+    }
+    .footer-header {
+        font-weight: 600;
+        color: rgb(7, 66, 228);
+        margin-bottom: 2px;
+        font-size: 12px;
+    }
+    .footer-content {
+        font-weight: 600;
+        margin-bottom: 0px;
+        font-size: 12px;
+    }
+    .footer-img {
+        width: 100px;
+        height: 100%;
+        padding: 5px;
+    }
+    .contact {
+        display: none;
+    }
+}
+
+
+/* MOBILE Responsive ------------------------------------------------------------*/
+
+@media only screen and (max-width: 46.1875em) {
+    body {
+        height: auto;
+        width: 100%;
+        margin-left: 2px;
+        margin-right: 2px;
+        background: #f8fafb;
+    }
+    #header {
+        margin: 5px 0;
+        display: block;
+        height: auto;
+        width: 100%;
+        background: white;
+        border-radius: 3px;
+        box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+        padding: 0 10px;
+    }
+    #header .header-content {
+        color: black;
+        font-size: 15px;
+        padding: 5px 0 5px;
+        padding-left: 0px;
+    }
+    .thamchieu-box {
+        display: none;
+    }
+    .header-sub {
+        font-size: 13px;
+        padding-left: 0;
+        padding-bottom: 5px;
+        display: flex;
+        width: 100%;
+        position: relative;
+    }
+    .header-date {
+        font-size: 13px;
+        font-style: italic;
+        display: flex;
+        position: absolute;
+        right: 0;
+        margin-right: 0px;
+    }
+    .btn-reload {
+        display: none;
+    }
+    .btn-reload:hover {
+        background-color: rgb(231, 226, 226);
+    }
+    #display_time {
+        display: inline-block;
+        font-size: 13px;
+        font-weight: 550;
+        font-style: italic;
+        margin: 0 5px;
+    }
+    .header-line {
+        width: 100%;
+        margin-left: 0px;
+        margin-bottom: 5px;
+        height: 1px;
+        background: #ccc;
+    }
+    #mini-chart {
+        display: none;
+    }
+    .alert-box {
+        margin: 0 10px;
+        font-size: 12px;
+    }
+    #alert-1,
+    #alert-2,
+    #alert-3 {
+        padding: 5px 10px;
+        display: none;
+    }
+    .mid-message {
+        margin: 0 10px;
+    }
+    .closebtn {
+        margin-left: 10px;
+        margin-right: -5px;
+        font-size: 20px;
+        line-height: 10px;
+    }
+    .tram-btn {
+        display: flex;
+        width: 100%;
+    }
+    .tram-btn a:link,
+    .tram-btn a:visited {
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        text-decoration: none;
+        text-align: center;
+        font-size: 12px;
+        color: white;
+        background-color: grey;
+        padding: 4px 20px;
+        width: 33.33333%;
+        margin: 10px;
+        margin-top: 5px;
+        border-radius: 3px;
+    }
+    .tram-btn a:hover {
+        background-color: rgb(110, 110, 110);
+    }
+    .chart-4-box {
+        display: block;
+        width: 100%;
+        background: white;
+        margin-top: 0px;
+        border-radius: 3px;
+        box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+        padding: 10px 2px;
+    }
+    .chart-title {
+        font-size: 13px;
+        font-weight: 600
+    }
+    .chart-4-line {
+        width: 100%;
+        margin: 5px 0px;
+        height: 1px;
+        background: #ccc;
+    }
+    #chart-4 {
+        width: 100%;
+    }
+    .button-box {
+        width: 100%;
+        display: none
+    }
+    .button-box-mobile {
+        display: inline-block;
+    }
+    .button-box-mobile .next-btn {
+        float: left;
+        margin-left: 30px;
+    }
+    .button-box-mobile .pdf-reset-btn {
+        float: right;
+        margin-right: 30px;
+    }
+    .button-box-mobile .filter-box {
+        display: inline-flex;
+    }
+    .btn-chart4 {
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        font-size: 12px;
+        padding: 4px 5px;
+        margin: 5px 2px;
+        background-color: grey;
+        color: white;
+        border-radius: 3px;
+    }
+    a:active,
+    button:active {
+        transform: translateY(1px);
+    }
+    button:disabled {
+        background-color: white;
+        color: grey;
+    }
+    button:disabled:hover {
+        background-color: white;
+        color: grey;
+        cursor: default;
+    }
+    .next-btn {
+        display: flex;
+    }
+    .next-btn button {
+        padding: 4px 10px;
+        margin: 5px 2px
+    }
+    button:hover {
+        background-color: rgb(110, 110, 110);
+    }
+    .toggle-btn {
+        display: none;
+    }
+    .filter-box {
+        font-weight: 600;
+        font-size: 13px;
+        display: flex;
+        margin-right: 0;
+        margin-left: 0;
+        text-align: center;
+        align-items: center;
+    }
+    .pdf-btn button {
+        margin-right: 0px;
+    }
+    #change_chart {
+        float: right;
+        border-radius: .15rem;
+        cursor: pointer;
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        width: 100px;
+        height: 25px;
+        font-size: 13px;
+        padding: 0 0 3px 5px;
+        margin-top: -23px;
+        margin-right: 5px;
+        color: white;
+        background-color: grey;
+    }
+    #change_chart:hover {
+        background-color: rgb(110, 110, 110);
+    }
+    #change_chart:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+    }
+    .content-title {
+        display: none;
+    }
+    #content {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .map-box {
+        margin-top: 10px;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+        padding: 5px;
+        width: 100%;
+        height: 300px;
+    }
+    .map-box:hover {
+        cursor: pointer;
+    }
+    #map {
+        height: 100%;
+        width: 100%;
+    }
+    .table-box {
+        margin: 5px 0;
+        height: auto;
+        width: 100%;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+        padding: 5px;
+    }
+    .form-control {
+        border-radius: .15rem;
+        cursor: pointer;
+    }
+    .form-control:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+    }
+    #list-tram {
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        width: 100%;
+        height: 25px;
+        font-size: 13px;
+        padding: 0 0 1.5px 2.5px;
+    }
+    .font-15 {
+        font-size: 12px;
+    }
+    .text-bold {
+        /* font-style: italic; */
+        font-weight: 600;
+    }
+    .margin-left-5px {
+        margin-left: 5px;
+    }
+    .time-data {
+        margin-left: 50px;
+    }
+    table,
+    th,
+    td {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+        padding: 2.5px 0 2.5px 5px;
+    }
+    th {
+        text-align: left;
+    }
+    .table-distance {
+        font-size: 11px;
+        margin-top: 10px;
+    }
+    #footer {
+        margin: 15px 0;
+        margin-bottom: 5px;
+        display: flex;
+        height: auto;
+        width: 100%;
+        background: white;
+        border-radius: 3px;
+        box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 25%);
+        font-size: 12px;
+        align-items: center;
+    }
+    .info {
+        width: 100%;
+        padding: 5px;
+        text-align: left;
+        line-height: 1.5;
+        font-size: 12px;
+    }
+    .footer-header {
+        font-weight: 600;
+        color: rgb(7, 66, 228);
+        margin-bottom: 2px;
+        font-size: 12px;
+    }
+    .footer-content {
+        font-weight: 600;
+        margin-bottom: 0px;
+        font-size: 12px;
+    }
+    .footer-img {
+        width: 100px;
+        height: 100%;
+        padding: 5px;
+    }
+    .contact {
+        display: none;
+    }
+}
